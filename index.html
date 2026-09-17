@@ -37,7 +37,7 @@
       border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    /* Minimalistiska kort (08:00–17:00 = 540 minuter) */
+    /* Lektionskort */
     .lesson {
       position: absolute;
       left: 3px;
@@ -45,66 +45,93 @@
       top: calc(var(--start) / 540 * 100%);
       height: calc((var(--dur) / 540 * 100%) - 3px);
       border-radius: 6px;
-      padding: 6px 8px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(8px);
       border: 1px solid transparent;
-      transition: transform 0.15s ease, border-color 0.15s ease;
-      cursor: default;
-    }
-
-    .lesson:hover {
-      transform: translateY(-1px);
-      z-index: 10;
-      filter: brightness(1.1);
-    }
-
-    /* Typografi */
-    .top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .lesson-title {
-      font-weight: 600;
-      font-size: clamp(11px, 1.05vw, 14px);
-      letter-spacing: -0.01em;
-      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      cursor: default;
+      /* Buggfri hover med hårdvaruacceleration */
+      will-change: transform, filter;
+      transition: transform 0.15s ease, filter 0.15s ease, border-color 0.15s ease;
     }
 
-    .room-badge {
-      font-size: clamp(9px, 0.75vw, 11px);
-      font-weight: 500;
-      opacity: 0.85;
-      padding: 1px 5px;
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.25);
+    /* Den älskade hover-effekten – nu helt utan vita linjer eller suddiga buggar */
+    .lesson:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.2);
+      z-index: 20;
     }
 
-    .bottom-row {
+    /* Högst upp: Lärare och Sal */
+    .top-row {
+      position: absolute;
+      top: 5px;
+      left: 8px;
+      right: 8px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      font-size: clamp(8.5px, 0.75vw, 11px);
-      opacity: 0.75;
-      font-feature-settings: "tnum";
+      align-items: center;
+      font-size: clamp(8px, 0.72vw, 11px);
+      line-height: 1;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .teacher {
       font-weight: 500;
     }
 
-    .time-span {
-      font-variant-numeric: tabular-nums;
+    .room-badge {
+      font-weight: 500;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.25);
     }
 
-    /* Ämnesfärger */
+    /* Mitten: 100% låst till mitten från alla kanter */
+    .middle-row {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(100% - 16px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .lesson-title {
+      font-weight: 600;
+      font-size: clamp(11px, 1.05vw, 15px);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+
+    /* Längst ner: Tid */
+    .bottom-row {
+      position: absolute;
+      bottom: 5px;
+      left: 8px;
+      right: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: clamp(8px, 0.7vw, 10.5px);
+      line-height: 1;
+      opacity: 0.7;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ================= ÅTERSTÄLLDA MJUKA RGBA-FÄRGER ================= */
+
     /* Matematik: Blå */
     .matte {
       background: rgba(59, 130, 246, 0.15);
@@ -154,7 +181,7 @@
       color: #86efac;
     }
 
-    /* Lunch, Mentor, Rast: Neutralgrå */
+    /* Lunch, Mentor, Rast: Mjuk neutralgrå */
     .neutral {
       background: rgba(148, 163, 184, 0.08);
       border-color: rgba(148, 163, 184, 0.18);
@@ -170,67 +197,79 @@
     <div class="day-column">
       <div class="lesson kemi" style="--start: 30; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Kemi (b)</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">A414</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Kemi (b)</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">8:30 – 9:50</span>
+          <span>8:30 – 9:50</span>
         </div>
       </div>
 
       <div class="lesson biologi" style="--start: 120; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Biologi (b)</span>
+          <span class="teacher">AMA</span>
           <span class="room-badge">A515</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Biologi (b)</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">AMA</span>
-          <span class="time-span">10:00 – 11:20</span>
+          <span>10:00 – 11:20</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 225; --dur: 40;">
         <div class="top-row">
-          <span class="lesson-title">Lunch</span>
+          <span></span>
           <span class="room-badge">Matsal</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Lunch</span>
+        </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">11:45 – 12:25</span>
+          <span>11:45 – 12:25</span>
         </div>
       </div>
 
       <div class="lesson spanska" style="--start: 275; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">Spanska</span>
+          <span class="teacher">FEM</span>
           <span class="room-badge">B109</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Spanska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">FEM</span>
-          <span class="time-span">12:35 – 13:30</span>
+          <span>12:35 – 13:30</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 345; --dur: 30;">
         <div class="top-row">
-          <span class="lesson-title">Mentor</span>
+          <span class="teacher">AMA, NON</span>
           <span class="room-badge">C404</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Mentor</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">AMA, NON</span>
-          <span class="time-span">13:45 – 14:15</span>
+          <span>13:45 – 14:15</span>
         </div>
       </div>
 
       <div class="lesson matte" style="--start: 375; --dur: 90;">
         <div class="top-row">
-          <span class="lesson-title">Matematik</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">C404</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Matematik</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">14:15 – 15:45</span>
+          <span>14:15 – 15:45</span>
         </div>
       </div>
     </div>
@@ -239,56 +278,66 @@
     <div class="day-column">
       <div class="lesson kemi" style="--start: 10; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Kemi</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">A412</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Kemi</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">8:10 – 9:10</span>
+          <span>8:10 – 9:10</span>
         </div>
       </div>
 
       <div class="lesson matte" style="--start: 80; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Matematik</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">A505</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Matematik</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">9:20 – 10:40</span>
+          <span>9:20 – 10:40</span>
         </div>
       </div>
 
       <div class="lesson spanska" style="--start: 170; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">Spanska</span>
+          <span class="teacher">FEM</span>
           <span class="room-badge">B109</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Spanska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">FEM</span>
-          <span class="time-span">10:50 – 11:45</span>
+          <span>10:50 – 11:45</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 240; --dur: 40;">
         <div class="top-row">
-          <span class="lesson-title">Lunch</span>
+          <span></span>
           <span class="room-badge">Matsal</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Lunch</span>
+        </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">12:00 – 12:40</span>
+          <span>12:00 – 12:40</span>
         </div>
       </div>
 
       <div class="lesson svenska" style="--start: 305; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Svenska</span>
+          <span class="teacher">LAK</span>
           <span class="room-badge">C309</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Svenska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">LAK</span>
-          <span class="time-span">13:05 – 14:25</span>
+          <span>13:05 – 14:25</span>
         </div>
       </div>
     </div>
@@ -297,66 +346,79 @@
     <div class="day-column">
       <div class="lesson matte" style="--start: 10; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Matematik</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">C405</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Matematik</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">8:10 – 9:30</span>
+          <span>8:10 – 9:30</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 90; --dur: 30;">
         <div class="top-row">
+          <span></span>
+          <span></span>
+        </div>
+        <div class="middle-row">
           <span class="lesson-title">Rast</span>
         </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">9:30 – 10:00</span>
+          <span>9:30 – 10:00</span>
         </div>
       </div>
 
       <div class="lesson biologi" style="--start: 125; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Biologi</span>
+          <span class="teacher">AMA</span>
           <span class="room-badge">A521</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Biologi</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">AMA</span>
-          <span class="time-span">10:05 – 11:05</span>
+          <span>10:05 – 11:05</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 190; --dur: 40;">
         <div class="top-row">
-          <span class="lesson-title">Lunch</span>
+          <span></span>
           <span class="room-badge">Matsal</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Lunch</span>
+        </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">11:10 – 11:50</span>
+          <span>11:10 – 11:50</span>
         </div>
       </div>
 
       <div class="lesson engelska" style="--start: 235; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Engelska</span>
+          <span class="teacher">LAK</span>
           <span class="room-badge">B204</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Engelska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">LAK</span>
-          <span class="time-span">11:55 – 13:15</span>
+          <span>11:55 – 13:15</span>
         </div>
       </div>
 
       <div class="lesson svenska" style="--start: 325; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Svenska</span>
+          <span class="teacher">LAK</span>
           <span class="room-badge">B204</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Svenska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">LAK</span>
-          <span class="time-span">13:25 – 14:45</span>
+          <span>13:25 – 14:45</span>
         </div>
       </div>
     </div>
@@ -365,56 +427,66 @@
     <div class="day-column">
       <div class="lesson matte" style="--start: 5; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Matematik</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">C304</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Matematik</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">8:05 – 9:25</span>
+          <span>8:05 – 9:25</span>
         </div>
       </div>
 
       <div class="lesson idrott" style="--start: 100; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Idrott</span>
+          <span class="teacher">SMA</span>
           <span class="room-badge">G2</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Idrott</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">SMA</span>
-          <span class="time-span">9:40 – 10:40</span>
+          <span>9:40 – 10:40</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 185; --dur: 40;">
         <div class="top-row">
-          <span class="lesson-title">Lunch</span>
+          <span></span>
           <span class="room-badge">Matsal</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Lunch</span>
+        </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">11:05 – 11:45</span>
+          <span>11:05 – 11:45</span>
         </div>
       </div>
 
       <div class="lesson spanska" style="--start: 245; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">Spanska</span>
+          <span class="teacher">FEM</span>
           <span class="room-badge">B109</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Spanska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">FEM</span>
-          <span class="time-span">12:05 – 13:00</span>
+          <span>12:05 – 13:00</span>
         </div>
       </div>
 
       <div class="lesson kemi" style="--start: 310; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Kemi</span>
+          <span class="teacher">NON</span>
           <span class="room-badge">A411</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Kemi</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">NON</span>
-          <span class="time-span">13:10 – 14:10</span>
+          <span>13:10 – 14:10</span>
         </div>
       </div>
     </div>
@@ -423,47 +495,53 @@
     <div class="day-column">
       <div class="lesson idrott" style="--start: 95; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Idrott</span>
+          <span class="teacher">SMA</span>
           <span class="room-badge">G2</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Idrott</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">SMA</span>
-          <span class="time-span">9:35 – 10:35</span>
+          <span>9:35 – 10:35</span>
         </div>
       </div>
 
       <div class="lesson neutral" style="--start: 180; --dur: 40;">
         <div class="top-row">
-          <span class="lesson-title">Lunch</span>
+          <span></span>
           <span class="room-badge">Matsal</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Lunch</span>
+        </div>
         <div class="bottom-row">
-          <span></span>
-          <span class="time-span">11:00 – 11:40</span>
+          <span>11:00 – 11:40</span>
         </div>
       </div>
 
-      <!-- Fredag: Engelska ändrad till 11:40 - 13:00 (dur: 80) -->
       <div class="lesson engelska" style="--start: 220; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">Engelska</span>
+          <span class="teacher">LAK</span>
           <span class="room-badge">B105</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Engelska</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">LAK</span>
-          <span class="time-span">11:40 – 13:00</span>
+          <span>11:40 – 13:00</span>
         </div>
       </div>
 
-      <!-- Fredag: Biologi 13:15 - 14:15 -->
       <div class="lesson biologi" style="--start: 315; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">Biologi</span>
+          <span class="teacher">AMA</span>
           <span class="room-badge">A506</span>
         </div>
+        <div class="middle-row">
+          <span class="lesson-title">Biologi</span>
+        </div>
         <div class="bottom-row">
-          <span class="teacher">AMA</span>
-          <span class="time-span">13:15 – 14:15</span>
+          <span>13:15 – 14:15</span>
         </div>
       </div>
     </div>
