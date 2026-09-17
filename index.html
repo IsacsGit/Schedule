@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Klasschema</title>
+  <title>Schema Fullskärm</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,103 +11,47 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    body {
-      background-color: #f0f0f0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #cfcfcf;
     }
 
-    .schedule-container {
-      width: 1100px;
-      background: white;
-      border: 1px solid #000;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Tabellhuvud */
-    .schedule-header {
+    /* 5 kolumner som fyller hela skärmen */
+    .schedule-grid {
       display: grid;
-      grid-template-columns: 45px repeat(5, 1fr) 45px;
-      border-bottom: 1px solid #000;
-      background-color: #fff;
-      font-size: 13px;
-      font-weight: bold;
-      text-align: center;
-      height: 28px;
-      line-height: 28px;
-    }
-
-    .header-cell {
-      border-right: 1px solid #000;
-    }
-    .header-cell:last-child {
-      border-right: none;
-    }
-
-    /* Själva schemarutnätet (9 timmar = 540 minuter = 540px hög, 1px per minut) */
-    .schedule-body {
-      display: grid;
-      grid-template-columns: 45px repeat(5, 1fr) 45px;
-      height: 540px;
-      position: relative;
-      background-color: #d0d0d0;
-    }
-
-    /* Tidsaxlar */
-    .time-axis {
-      background: #fff;
-      position: relative;
-      border-right: 1px solid #000;
-    }
-    .time-axis.right {
-      border-right: none;
-      border-left: 1px solid #000;
-    }
-    .time-label {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      font-size: 11px;
-      transform: translateY(-50%);
-      color: #000;
-    }
-
-    /* Bakgrunds-timmarslinjer */
-    .grid-lines {
-      position: absolute;
-      top: 0;
-      left: 0;
+      grid-template-columns: repeat(5, 1fr);
       width: 100%;
       height: 100%;
-      pointer-events: none;
-    }
-    .hour-line {
-      position: absolute;
-      width: 100%;
-      border-top: 1px dotted #aaa;
     }
 
-    /* Dags-kolumner */
     .day-column {
       position: relative;
-      border-right: 1px solid #000;
       height: 100%;
+      border-right: 1px solid #000;
+      background-color: #cfcfcf;
     }
 
-    /* Lektionsblock */
+    .day-column:last-child {
+      border-right: none;
+    }
+
+    /* Lektionsblock (baserat på 08:00–17:00 = 540 minuter) */
     .lesson {
       position: absolute;
-      width: 100%;
+      left: 0;
+      right: 0;
+      top: calc(var(--start) / 540 * 100%);
+      height: calc(var(--dur) / 540 * 100%);
       border-top: 1px solid #000;
       border-bottom: 1px solid #000;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1px 3px;
+      padding: 2px 6px;
       overflow: hidden;
-      font-size: 11px;
+      font-size: clamp(10px, 1.1vw, 14px);
     }
 
     .lesson-info {
@@ -122,24 +66,22 @@
       font-weight: bold;
     }
 
-    /* Start- och sluttid */
+    /* Tidsangivelser i hörnen */
     .time-tag {
       position: absolute;
-      font-size: 8px;
-      color: #000;
-      background: transparent;
+      font-size: clamp(8px, 0.8vw, 10px);
       line-height: 1;
     }
     .start-time {
-      top: 1px;
-      left: 1px;
+      top: 2px;
+      left: 2px;
     }
     .end-time {
-      bottom: 1px;
-      right: 1px;
+      bottom: 2px;
+      right: 2px;
     }
 
-    /* Ämnesfärger enligt Novaschem */
+    /* Ämnesfärger */
     .kemi { background-color: #c9366f; color: #000; }
     .biologi { background-color: #a6f33d; color: #000; }
     .matte { background-color: #7d88ff; color: #000; }
@@ -149,7 +91,6 @@
     .idrott { background-color: #00e600; color: #000; }
     .lunch, .mentor, .rast { background-color: #dcdcdc; color: #000; }
 
-    /* Specialstyling för text med kontrast */
     .spanska .time-tag, .engelska .time-tag {
       color: #fff;
     }
@@ -157,349 +98,282 @@
 </head>
 <body>
 
-  <div class="schedule-container">
-    <!-- Kolumnrubriker -->
-    <div class="schedule-header">
-      <div class="header-cell"></div>
-      <div class="header-cell">Måndag 2/11</div>
-      <div class="header-cell">Tisdag 3/11</div>
-      <div class="header-cell">Onsdag 4/11</div>
-      <div class="header-cell">Torsdag 5/11</div>
-      <div class="header-cell">Fredag 6/11</div>
-      <div class="header-cell"></div>
+  <div class="schedule-grid">
+
+    <!-- DAG 1: MÅNDAG -->
+    <div class="day-column">
+      <div class="lesson kemi" style="--start: 30; --dur: 80;">
+        <span class="time-tag start-time">8:30</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">KEMI1000X b)</div>
+            <div>NON</div>
+          </div>
+          <div class="lesson-title">A414</div>
+        </div>
+        <span class="time-tag end-time">9:50</span>
+      </div>
+
+      <div class="lesson biologi" style="--start: 120; --dur: 80;">
+        <span class="time-tag start-time">10:00</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">BIOG1000X b)</div>
+            <div>AMA</div>
+          </div>
+          <div class="lesson-title">A515</div>
+        </div>
+        <span class="time-tag end-time">11:20</span>
+      </div>
+
+      <div class="lesson lunch" style="--start: 225; --dur: 40;">
+        <span class="time-tag start-time">11:45</span>
+        <div class="lesson-info">
+          <span class="lesson-title">Lunch</span>
+          <span>Matsal</span>
+        </div>
+        <span class="time-tag end-time">12:25</span>
+      </div>
+
+      <div class="lesson spanska" style="--start: 275; --dur: 55;">
+        <span class="time-tag start-time">12:35</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">MODO1000XSPA</span>
+          <span>FEM</span>
+          <span class="lesson-title">B109</span>
+        </div>
+        <span class="time-tag end-time">13:30</span>
+      </div>
+
+      <div class="lesson mentor" style="--start: 345; --dur: 30;">
+        <span class="time-tag start-time">13:45</span>
+        <div class="lesson-info">
+          <span class="lesson-title">MENTOR</span>
+          <span style="font-size: 0.9em;">AMA,NON</span>
+          <span class="lesson-title">C404</span>
+        </div>
+        <span class="time-tag end-time">14:15</span>
+      </div>
+
+      <div class="lesson matte" style="--start: 375; --dur: 90;">
+        <span class="time-tag start-time">14:15</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">MATE1C00X</div>
+            <div>NON</div>
+          </div>
+          <div class="lesson-title">C404</div>
+        </div>
+        <span class="time-tag end-time">15:45</span>
+      </div>
     </div>
 
-    <!-- Schemats innehåll (08:00 = 0px, 1 timme = 60px) -->
-    <div class="schedule-body">
-      
-      <!-- Tidslinje Vänster -->
-      <div class="time-axis">
-        <div class="time-label" style="top: 0px;">8:00</div>
-        <div class="time-label" style="top: 60px;">9:00</div>
-        <div class="time-label" style="top: 120px;">10:00</div>
-        <div class="time-label" style="top: 180px;">11:00</div>
-        <div class="time-label" style="top: 240px;">12:00</div>
-        <div class="time-label" style="top: 300px;">13:00</div>
-        <div class="time-label" style="top: 360px;">14:00</div>
-        <div class="time-label" style="top: 420px;">15:00</div>
-        <div class="time-label" style="top: 480px;">16:00</div>
-        <div class="time-label" style="top: 540px;">17:00</div>
+    <!-- DAG 2: TISDAG -->
+    <div class="day-column">
+      <div class="lesson kemi" style="--start: 10; --dur: 60;">
+        <span class="time-tag start-time">8:10</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">KEMI1000X</span>
+          <span>NON</span>
+          <span class="lesson-title">A412</span>
+        </div>
+        <span class="time-tag end-time">9:10</span>
       </div>
 
-      <!-- MÅNDAG -->
-      <div class="day-column">
-        <!-- 08:30 - 09:50 -->
-        <div class="lesson kemi" style="top: 30px; height: 80px;">
-          <span class="time-tag start-time">8:30</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">KEMI1000X b)</div>
-              <div>NON</div>
-            </div>
-            <div class="lesson-title">A414</div>
+      <div class="lesson matte" style="--start: 80; --dur: 80;">
+        <span class="time-tag start-time">9:20</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">MATE1C00X</div>
+            <div>NON</div>
           </div>
-          <span class="time-tag end-time">9:50</span>
+          <div class="lesson-title">A505</div>
         </div>
-
-        <!-- 10:00 - 11:20 -->
-        <div class="lesson biologi" style="top: 120px; height: 80px;">
-          <span class="time-tag start-time">10:00</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">BIOG1000X b)</div>
-              <div>AMA</div>
-            </div>
-            <div class="lesson-title">A515</div>
-          </div>
-          <span class="time-tag end-time">11:20</span>
-        </div>
-
-        <!-- 11:45 - 12:25 Lunch -->
-        <div class="lesson lunch" style="top: 225px; height: 40px;">
-          <span class="time-tag start-time">11:45</span>
-          <div class="lesson-info">
-            <span class="lesson-title">Lunch</span>
-            <span>Matsal</span>
-          </div>
-          <span class="time-tag end-time">12:25</span>
-        </div>
-
-        <!-- 12:35 - 13:30 -->
-        <div class="lesson spanska" style="top: 275px; height: 55px;">
-          <span class="time-tag start-time">12:35</span>
-          <div class="lesson-info" style="margin-top: 10px;">
-            <span class="lesson-title">MODO1000XSPA</span>
-            <span>FEM</span>
-            <span class="lesson-title">B109</span>
-          </div>
-          <span class="time-tag end-time">13:30</span>
-        </div>
-
-        <!-- 13:45 - 14:15 Mentor -->
-        <div class="lesson mentor" style="top: 345px; height: 30px;">
-          <span class="time-tag start-time">13:45</span>
-          <div class="lesson-info">
-            <span class="lesson-title">MENTOR</span>
-            <span style="font-size: 9px;">AMA,NON</span>
-            <span class="lesson-title">C404</span>
-          </div>
-          <span class="time-tag end-time">14:15</span>
-        </div>
-
-        <!-- 14:15 - 15:45 -->
-        <div class="lesson matte" style="top: 375px; height: 90px;">
-          <span class="time-tag start-time">14:15</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">MATE1C00X</div>
-              <div>NON</div>
-            </div>
-            <div class="lesson-title">C404</div>
-          </div>
-          <span class="time-tag end-time">15:45</span>
-        </div>
+        <span class="time-tag end-time">10:40</span>
       </div>
 
-      <!-- TISDAG -->
-      <div class="day-column">
-        <!-- 08:10 - 09:10 -->
-        <div class="lesson kemi" style="top: 10px; height: 60px;">
-          <span class="time-tag start-time">8:10</span>
-          <div class="lesson-info" style="margin-top: 12px;">
-            <span class="lesson-title">KEMI1000X</span>
-            <span>NON</span>
-            <span class="lesson-title">A412</span>
-          </div>
-          <span class="time-tag end-time">9:10</span>
+      <div class="lesson spanska" style="--start: 170; --dur: 55;">
+        <span class="time-tag start-time">10:50</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">MODO1000XSPA</span>
+          <span>FEM</span>
+          <span class="lesson-title">B109</span>
         </div>
-
-        <!-- 09:20 - 10:40 -->
-        <div class="lesson matte" style="top: 80px; height: 80px;">
-          <span class="time-tag start-time">9:20</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">MATE1C00X</div>
-              <div>NON</div>
-            </div>
-            <div class="lesson-title">A505</div>
-          </div>
-          <span class="time-tag end-time">10:40</span>
-        </div>
-
-        <!-- 10:50 - 11:45 -->
-        <div class="lesson spanska" style="top: 170px; height: 55px;">
-          <span class="time-tag start-time">10:50</span>
-          <div class="lesson-info" style="margin-top: 10px;">
-            <span class="lesson-title">MODO1000XSPA</span>
-            <span>FEM</span>
-            <span class="lesson-title">B109</span>
-          </div>
-          <span class="time-tag end-time">11:45</span>
-        </div>
-
-        <!-- 12:00 - 12:40 Lunch -->
-        <div class="lesson lunch" style="top: 240px; height: 40px;">
-          <span class="time-tag start-time">12:00</span>
-          <div class="lesson-info">
-            <span class="lesson-title">Lunch</span>
-            <span>Matsal</span>
-          </div>
-          <span class="time-tag end-time">12:40</span>
-        </div>
-
-        <!-- 13:05 - 14:25 -->
-        <div class="lesson svenska" style="top: 305px; height: 80px;">
-          <span class="time-tag start-time">13:05</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">SVEN1000X</div>
-              <div>LAK</div>
-            </div>
-            <div class="lesson-title">C309</div>
-          </div>
-          <span class="time-tag end-time">14:25</span>
-        </div>
+        <span class="time-tag end-time">11:45</span>
       </div>
 
-      <!-- ONSDAG -->
-      <div class="day-column">
-        <!-- 08:10 - 09:30 -->
-        <div class="lesson matte" style="top: 10px; height: 80px;">
-          <span class="time-tag start-time">8:10</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">MATE1C00X</div>
-              <div>NON</div>
-            </div>
-            <div class="lesson-title">C405</div>
-          </div>
-          <span class="time-tag end-time">9:30</span>
+      <div class="lesson lunch" style="--start: 240; --dur: 40;">
+        <span class="time-tag start-time">12:00</span>
+        <div class="lesson-info">
+          <span class="lesson-title">Lunch</span>
+          <span>Matsal</span>
         </div>
-
-        <!-- 09:30 - 10:00 Rast -->
-        <div class="lesson rast" style="top: 90px; height: 30px;">
-          <span class="time-tag start-time">9:30</span>
-          <div class="lesson-info"><span>Rast</span></div>
-          <span class="time-tag end-time">10:00</span>
-        </div>
-
-        <!-- 10:05 - 11:05 -->
-        <div class="lesson biologi" style="top: 125px; height: 60px;">
-          <span class="time-tag start-time">10:05</span>
-          <div class="lesson-info" style="margin-top: 12px;">
-            <span class="lesson-title">BIOG1000X</span>
-            <span>AMA</span>
-            <span class="lesson-title">A521</span>
-          </div>
-          <span class="time-tag end-time">11:05</span>
-        </div>
-
-        <!-- 11:10 - 11:50 Lunch -->
-        <div class="lesson lunch" style="top: 190px; height: 40px;">
-          <span class="time-tag start-time">11:10</span>
-          <div class="lesson-info">
-            <span class="lesson-title">Lunch</span>
-            <span>Matsal</span>
-          </div>
-          <span class="time-tag end-time">11:50</span>
-        </div>
-
-        <!-- 11:55 - 13:15 -->
-        <div class="lesson engelska" style="top: 235px; height: 80px;">
-          <span class="time-tag start-time">11:55</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">ENGE1000X</div>
-              <div>LAK</div>
-            </div>
-            <div class="lesson-title">B204</div>
-          </div>
-          <span class="time-tag end-time">13:15</span>
-        </div>
-
-        <!-- 13:25 - 14:45 -->
-        <div class="lesson svenska" style="top: 325px; height: 80px;">
-          <span class="time-tag start-time">13:25</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">SVEN1000X</div>
-              <div>LAK</div>
-            </div>
-            <div class="lesson-title">B204</div>
-          </div>
-          <span class="time-tag end-time">14:45</span>
-        </div>
+        <span class="time-tag end-time">12:40</span>
       </div>
 
-      <!-- TORSDAG -->
-      <div class="day-column">
-        <!-- 08:05 - 09:25 -->
-        <div class="lesson matte" style="top: 5px; height: 80px;">
-          <span class="time-tag start-time">8:05</span>
-          <div class="lesson-info" style="margin-top: 8px;">
-            <div>
-              <div class="lesson-title">MATE1C00X</div>
-              <div>NON</div>
-            </div>
-            <div class="lesson-title">C304</div>
+      <div class="lesson svenska" style="--start: 305; --dur: 80;">
+        <span class="time-tag start-time">13:05</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">SVEN1000X</div>
+            <div>LAK</div>
           </div>
-          <span class="time-tag end-time">9:25</span>
+          <div class="lesson-title">C309</div>
         </div>
-
-        <!-- 09:40 - 10:40 -->
-        <div class="lesson idrott" style="top: 100px; height: 60px;">
-          <span class="time-tag start-time">9:40</span>
-          <div class="lesson-info" style="margin-top: 12px;">
-            <span class="lesson-title">IDRO1000X</span>
-            <span>SMA</span>
-            <span class="lesson-title">G2</span>
-          </div>
-          <span class="time-tag end-time">10:40</span>
-        </div>
-
-        <!-- 11:05 - 11:45 Lunch -->
-        <div class="lesson lunch" style="top: 185px; height: 40px;">
-          <span class="time-tag start-time">11:05</span>
-          <div class="lesson-info">
-            <span class="lesson-title">Lunch</span>
-            <span>Matsal</span>
-          </div>
-          <span class="time-tag end-time">11:45</span>
-        </div>
-
-        <!-- 12:05 - 13:00 -->
-        <div class="lesson spanska" style="top: 245px; height: 55px;">
-          <span class="time-tag start-time">12:05</span>
-          <div class="lesson-info" style="margin-top: 10px;">
-            <span class="lesson-title">MODO1000XSPA</span>
-            <span>FEM</span>
-            <span class="lesson-title">B109</span>
-          </div>
-          <span class="time-tag end-time">13:00</span>
-        </div>
-
-        <!-- 13:10 - 14:10 -->
-        <div class="lesson kemi" style="top: 310px; height: 60px;">
-          <span class="time-tag start-time">13:10</span>
-          <div class="lesson-info" style="margin-top: 12px;">
-            <span class="lesson-title">KEMI1000X</span>
-            <span>NON</span>
-            <span class="lesson-title">A411</span>
-          </div>
-          <span class="time-tag end-time">14:10</span>
-        </div>
+        <span class="time-tag end-time">14:25</span>
       </div>
-
-      <!-- FREDAG -->
-      <div class="day-column">
-        <!-- 09:35 - 10:35 -->
-        <div class="lesson idrott" style="top: 95px; height: 60px;">
-          <span class="time-tag start-time">9:35</span>
-          <div class="lesson-info" style="margin-top: 12px;">
-            <span class="lesson-title">IDRO1000X</span>
-            <span>SMA</span>
-            <span class="lesson-title">G2</span>
-          </div>
-          <span class="time-tag end-time">10:35</span>
-        </div>
-
-        <!-- 11:00 - 11:40 Lunch -->
-        <div class="lesson lunch" style="top: 180px; height: 40px;">
-          <span class="time-tag start-time">11:00</span>
-          <div class="lesson-info">
-            <span class="lesson-title">Lunch</span>
-            <span>Matsal</span>
-          </div>
-          <span class="time-tag end-time">11:40</span>
-        </div>
-
-        <!-- 11:40 - 12:30 -->
-        <div class="lesson engelska" style="top: 220px; height: 50px;">
-          <span class="time-tag start-time">11:40</span>
-          <div class="lesson-info" style="margin-top: 10px;">
-            <span class="lesson-title">ENGE1000X</span>
-            <span>LAK</span>
-            <span class="lesson-title">B105</span>
-          </div>
-          <span class="time-tag end-time">12:30</span>
-        </div>
-      </div>
-
-      <!-- Tidslinje Höger -->
-      <div class="time-axis right">
-        <div class="time-label" style="top: 0px;">8:00</div>
-        <div class="time-label" style="top: 60px;">9:00</div>
-        <div class="time-label" style="top: 120px;">10:00</div>
-        <div class="time-label" style="top: 180px;">11:00</div>
-        <div class="time-label" style="top: 240px;">12:00</div>
-        <div class="time-label" style="top: 300px;">13:00</div>
-        <div class="time-label" style="top: 360px;">14:00</div>
-        <div class="time-label" style="top: 420px;">15:00</div>
-        <div class="time-label" style="top: 480px;">16:00</div>
-        <div class="time-label" style="top: 540px;">17:00</div>
-      </div>
-
     </div>
+
+    <!-- DAG 3: ONSDAG -->
+    <div class="day-column">
+      <div class="lesson matte" style="--start: 10; --dur: 80;">
+        <span class="time-tag start-time">8:10</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">MATE1C00X</div>
+            <div>NON</div>
+          </div>
+          <div class="lesson-title">C405</div>
+        </div>
+        <span class="time-tag end-time">9:30</span>
+      </div>
+
+      <div class="lesson rast" style="--start: 90; --dur: 30;">
+        <span class="time-tag start-time">9:30</span>
+        <div class="lesson-info"><span>Rast</span></div>
+        <span class="time-tag end-time">10:00</span>
+      </div>
+
+      <div class="lesson biologi" style="--start: 125; --dur: 60;">
+        <span class="time-tag start-time">10:05</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">BIOG1000X</span>
+          <span>AMA</span>
+          <span class="lesson-title">A521</span>
+        </div>
+        <span class="time-tag end-time">11:05</span>
+      </div>
+
+      <div class="lesson lunch" style="--start: 190; --dur: 40;">
+        <span class="time-tag start-time">11:10</span>
+        <div class="lesson-info">
+          <span class="lesson-title">Lunch</span>
+          <span>Matsal</span>
+        </div>
+        <span class="time-tag end-time">11:50</span>
+      </div>
+
+      <div class="lesson engelska" style="--start: 235; --dur: 80;">
+        <span class="time-tag start-time">11:55</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">ENGE1000X</div>
+            <div>LAK</div>
+          </div>
+          <div class="lesson-title">B204</div>
+        </div>
+        <span class="time-tag end-time">13:15</span>
+      </div>
+
+      <div class="lesson svenska" style="--start: 325; --dur: 80;">
+        <span class="time-tag start-time">13:25</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">SVEN1000X</div>
+            <div>LAK</div>
+          </div>
+          <div class="lesson-title">B204</div>
+        </div>
+        <span class="time-tag end-time">14:45</span>
+      </div>
+    </div>
+
+    <!-- DAG 4: TORSDAG -->
+    <div class="day-column">
+      <div class="lesson matte" style="--start: 5; --dur: 80;">
+        <span class="time-tag start-time">8:05</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <div>
+            <div class="lesson-title">MATE1C00X</div>
+            <div>NON</div>
+          </div>
+          <div class="lesson-title">C304</div>
+        </div>
+        <span class="time-tag end-time">9:25</span>
+      </div>
+
+      <div class="lesson idrott" style="--start: 100; --dur: 60;">
+        <span class="time-tag start-time">9:40</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">IDRO1000X</span>
+          <span>SMA</span>
+          <span class="lesson-title">G2</span>
+        </div>
+        <span class="time-tag end-time">10:40</span>
+      </div>
+
+      <div class="lesson lunch" style="--start: 185; --dur: 40;">
+        <span class="time-tag start-time">11:05</span>
+        <div class="lesson-info">
+          <span class="lesson-title">Lunch</span>
+          <span>Matsal</span>
+        </div>
+        <span class="time-tag end-time">11:45</span>
+      </div>
+
+      <div class="lesson spanska" style="--start: 245; --dur: 55;">
+        <span class="time-tag start-time">12:05</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">MODO1000XSPA</span>
+          <span>FEM</span>
+          <span class="lesson-title">B109</span>
+        </div>
+        <span class="time-tag end-time">13:00</span>
+      </div>
+
+      <div class="lesson kemi" style="--start: 310; --dur: 60;">
+        <span class="time-tag start-time">13:10</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">KEMI1000X</span>
+          <span>NON</span>
+          <span class="lesson-title">A411</span>
+        </div>
+        <span class="time-tag end-time">14:10</span>
+      </div>
+    </div>
+
+    <!-- DAG 5: FREDAG -->
+    <div class="day-column">
+      <div class="lesson idrott" style="--start: 95; --dur: 60;">
+        <span class="time-tag start-time">9:35</span>
+        <div class="lesson-info" style="margin-top: 12px;">
+          <span class="lesson-title">IDRO1000X</span>
+          <span>SMA</span>
+          <span class="lesson-title">G2</span>
+        </div>
+        <span class="time-tag end-time">10:35</span>
+      </div>
+
+      <div class="lesson lunch" style="--start: 180; --dur: 40;">
+        <span class="time-tag start-time">11:00</span>
+        <div class="lesson-info">
+          <span class="lesson-title">Lunch</span>
+          <span>Matsal</span>
+        </div>
+        <span class="time-tag end-time">11:40</span>
+      </div>
+
+      <div class="lesson engelska" style="--start: 220; --dur: 50;">
+        <span class="time-tag start-time">11:40</span>
+        <div class="lesson-info" style="margin-top: 10px;">
+          <span class="lesson-title">ENGE1000X</span>
+          <span>LAK</span>
+          <span class="lesson-title">B105</span>
+        </div>
+        <span class="time-tag end-time">12:30</span>
+      </div>
+    </div>
+
   </div>
 
 </body>
