@@ -15,16 +15,16 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background-color: #0c0e14; /* Djup mörk bakgrund */
+      background-color: #0c0e14;
     }
 
-    /* Rutnät över hela skärmen */
+    /* Rutnät över hela skärmen (5 dagar) */
     .schedule-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       width: 100%;
       height: 100%;
-      padding: 4px;
+      padding: 6px;
       gap: 6px;
     }
 
@@ -71,7 +71,7 @@
 
     .lesson-title {
       font-weight: 600;
-      font-size: clamp(10px, 0.95vw, 13px);
+      font-size: clamp(11px, 1.05vw, 14px);
       letter-spacing: -0.01em;
       white-space: nowrap;
       overflow: hidden;
@@ -82,9 +82,9 @@
       font-size: clamp(9px, 0.75vw, 11px);
       font-weight: 500;
       opacity: 0.85;
-      padding: 1px 4px;
+      padding: 1px 5px;
       border-radius: 4px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.25);
     }
 
     .bottom-row {
@@ -104,8 +104,8 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Mjuka, estetiska temafärger */
-    /* Matte: Blå */
+    /* Ämnesfärger */
+    /* Matematik: Blå */
     .matte {
       background: rgba(59, 130, 246, 0.15);
       border-color: rgba(59, 130, 246, 0.35);
@@ -133,7 +133,7 @@
       color: #bef264;
     }
 
-    /* MODO: Röd */
+    /* Spanska: Röd */
     .spanska {
       background: rgba(239, 68, 68, 0.15);
       border-color: rgba(239, 68, 68, 0.35);
@@ -154,7 +154,7 @@
       color: #86efac;
     }
 
-    /* Lunch, Mentor, Rast: Mjuk neutralgrå */
+    /* Lunch, Mentor, Rast: Neutralgrå */
     .neutral {
       background: rgba(148, 163, 184, 0.08);
       border-color: rgba(148, 163, 184, 0.18);
@@ -170,7 +170,7 @@
     <div class="day-column">
       <div class="lesson kemi" style="--start: 30; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">KEMI1000X b)</span>
+          <span class="lesson-title">Kemi (b)</span>
           <span class="room-badge">A414</span>
         </div>
         <div class="bottom-row">
@@ -181,7 +181,7 @@
 
       <div class="lesson biologi" style="--start: 120; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">BIOG1000X b)</span>
+          <span class="lesson-title">Biologi (b)</span>
           <span class="room-badge">A515</span>
         </div>
         <div class="bottom-row">
@@ -203,7 +203,7 @@
 
       <div class="lesson spanska" style="--start: 275; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">MODO1000XSPA</span>
+          <span class="lesson-title">Spanska</span>
           <span class="room-badge">B109</span>
         </div>
         <div class="bottom-row">
@@ -214,7 +214,7 @@
 
       <div class="lesson neutral" style="--start: 345; --dur: 30;">
         <div class="top-row">
-          <span class="lesson-title">MENTOR</span>
+          <span class="lesson-title">Mentor</span>
           <span class="room-badge">C404</span>
         </div>
         <div class="bottom-row">
@@ -225,7 +225,7 @@
 
       <div class="lesson matte" style="--start: 375; --dur: 90;">
         <div class="top-row">
-          <span class="lesson-title">MATE1C00X</span>
+          <span class="lesson-title">Matematik</span>
           <span class="room-badge">C404</span>
         </div>
         <div class="bottom-row">
@@ -239,7 +239,7 @@
     <div class="day-column">
       <div class="lesson kemi" style="--start: 10; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">KEMI1000X</span>
+          <span class="lesson-title">Kemi</span>
           <span class="room-badge">A412</span>
         </div>
         <div class="bottom-row">
@@ -250,7 +250,7 @@
 
       <div class="lesson matte" style="--start: 80; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">MATE1C00X</span>
+          <span class="lesson-title">Matematik</span>
           <span class="room-badge">A505</span>
         </div>
         <div class="bottom-row">
@@ -261,7 +261,7 @@
 
       <div class="lesson spanska" style="--start: 170; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">MODO1000XSPA</span>
+          <span class="lesson-title">Spanska</span>
           <span class="room-badge">B109</span>
         </div>
         <div class="bottom-row">
@@ -283,7 +283,7 @@
 
       <div class="lesson svenska" style="--start: 305; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">SVEN1000X</span>
+          <span class="lesson-title">Svenska</span>
           <span class="room-badge">C309</span>
         </div>
         <div class="bottom-row">
@@ -297,7 +297,7 @@
     <div class="day-column">
       <div class="lesson matte" style="--start: 10; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">MATE1C00X</span>
+          <span class="lesson-title">Matematik</span>
           <span class="room-badge">C405</span>
         </div>
         <div class="bottom-row">
@@ -318,7 +318,7 @@
 
       <div class="lesson biologi" style="--start: 125; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">BIOG1000X</span>
+          <span class="lesson-title">Biologi</span>
           <span class="room-badge">A521</span>
         </div>
         <div class="bottom-row">
@@ -340,7 +340,7 @@
 
       <div class="lesson engelska" style="--start: 235; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">ENGE1000X</span>
+          <span class="lesson-title">Engelska</span>
           <span class="room-badge">B204</span>
         </div>
         <div class="bottom-row">
@@ -351,7 +351,7 @@
 
       <div class="lesson svenska" style="--start: 325; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">SVEN1000X</span>
+          <span class="lesson-title">Svenska</span>
           <span class="room-badge">B204</span>
         </div>
         <div class="bottom-row">
@@ -365,7 +365,7 @@
     <div class="day-column">
       <div class="lesson matte" style="--start: 5; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">MATE1C00X</span>
+          <span class="lesson-title">Matematik</span>
           <span class="room-badge">C304</span>
         </div>
         <div class="bottom-row">
@@ -376,7 +376,7 @@
 
       <div class="lesson idrott" style="--start: 100; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">IDRO1000X</span>
+          <span class="lesson-title">Idrott</span>
           <span class="room-badge">G2</span>
         </div>
         <div class="bottom-row">
@@ -398,7 +398,7 @@
 
       <div class="lesson spanska" style="--start: 245; --dur: 55;">
         <div class="top-row">
-          <span class="lesson-title">MODO1000XSPA</span>
+          <span class="lesson-title">Spanska</span>
           <span class="room-badge">B109</span>
         </div>
         <div class="bottom-row">
@@ -409,7 +409,7 @@
 
       <div class="lesson kemi" style="--start: 310; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">KEMI1000X</span>
+          <span class="lesson-title">Kemi</span>
           <span class="room-badge">A411</span>
         </div>
         <div class="bottom-row">
@@ -423,7 +423,7 @@
     <div class="day-column">
       <div class="lesson idrott" style="--start: 95; --dur: 60;">
         <div class="top-row">
-          <span class="lesson-title">IDRO1000X</span>
+          <span class="lesson-title">Idrott</span>
           <span class="room-badge">G2</span>
         </div>
         <div class="bottom-row">
@@ -443,14 +443,27 @@
         </div>
       </div>
 
-      <div class="lesson engelska" style="--start: 220; --dur: 50;">
+      <!-- Fredag: Engelska ändrad till 11:40 - 13:00 (dur: 80) -->
+      <div class="lesson engelska" style="--start: 220; --dur: 80;">
         <div class="top-row">
-          <span class="lesson-title">ENGE1000X</span>
+          <span class="lesson-title">Engelska</span>
           <span class="room-badge">B105</span>
         </div>
         <div class="bottom-row">
           <span class="teacher">LAK</span>
-          <span class="time-span">11:40 – 12:30</span>
+          <span class="time-span">11:40 – 13:00</span>
+        </div>
+      </div>
+
+      <!-- Fredag: Biologi 13:15 - 14:15 -->
+      <div class="lesson biologi" style="--start: 315; --dur: 60;">
+        <div class="top-row">
+          <span class="lesson-title">Biologi</span>
+          <span class="room-badge">A506</span>
+        </div>
+        <div class="bottom-row">
+          <span class="teacher">AMA</span>
+          <span class="time-span">13:15 – 14:15</span>
         </div>
       </div>
     </div>
