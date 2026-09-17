@@ -60,20 +60,21 @@
       z-index: 20;
     }
 
-    /* ================= PÅGÅENDE LEKTION (HIGHLIGHT) ================= */
+    /* ================= SUBTIL & LUGN ANDNING FÖR PÅGÅENDE LEKTION ================= */
     .lesson.is-current {
-      filter: brightness(1.3) !important;
-      border-color: #ffffff !important;
+      border-color: currentColor;
       z-index: 15;
-      animation: livePulse 2.4s ease-in-out infinite;
+      animation: slowBreathe 4.5s ease-in-out infinite;
     }
 
-    @keyframes livePulse {
+    @keyframes slowBreathe {
       0%, 100% {
-        box-shadow: 0 0 12px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.06);
+        box-shadow: 0 0 6px currentColor;
+        filter: brightness(1.02);
       }
       50% {
-        box-shadow: 0 0 24px currentColor, 0 0 35px currentColor, inset 0 0 16px rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 15px currentColor;
+        filter: brightness(1.14);
       }
     }
 
@@ -203,6 +204,10 @@
       transition: opacity 0.2s ease;
     }
 
+    .modal-backdrop.open .modal-card {
+      transform: scale(1);
+    }
+
     .modal-backdrop.open {
       opacity: 1;
       pointer-events: auto;
@@ -218,10 +223,6 @@
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
       transform: scale(0.92);
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .modal-backdrop.open .modal-card {
-      transform: scale(1);
     }
 
     .modal-close {
@@ -282,6 +283,127 @@
       font-weight: 600;
       font-variant-numeric: tabular-nums;
       text-align: right;
+    }
+
+    /* ================= HEMLIG DEBUG PANEL ================= */
+    .debug-panel {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      width: 290px;
+      background: #10141f;
+      border: 1px solid #3b82f6;
+      border-radius: 12px;
+      padding: 16px;
+      z-index: 2000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(59, 130, 246, 0.3);
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      color: #e2e8f0;
+      font-size: 12px;
+    }
+
+    .debug-panel.active {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .debug-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      color: #93c5fd;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 8px;
+    }
+
+    .debug-close {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .debug-close:hover { color: #fff; }
+
+    .debug-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .debug-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+    }
+
+    .debug-input, .debug-select {
+      background: #1a202e;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #fff;
+      padding: 6px 8px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .debug-btn {
+      background: #2563eb;
+      border: none;
+      color: #fff;
+      padding: 7px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 11px;
+      transition: background 0.15s;
+    }
+    .debug-btn:hover { background: #1d4ed8; }
+
+    .debug-btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+    .debug-btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+    .debug-presets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .debug-preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      border-radius: 4px;
+      padding: 4px;
+      font-size: 10px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .debug-preset-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .debug-status {
+      font-size: 10px;
+      color: #34d399;
+      text-align: center;
+      margin-top: 2px;
     }
   </style>
 </head>
@@ -474,291 +596,4 @@
 
       <div class="lesson engelska" style="--start: 235; --dur: 80;"
            data-subject="Engelska" data-room="B204" data-teacher="LAK" data-time="11:55 – 13:15" data-day="Onsdag">
-        <div class="top-row">
-          <span class="teacher">LAK</span>
-          <span class="room-badge">B204</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Engelska</span>
-        </div>
-        <div class="bottom-row">
-          <span>11:55 – 13:15</span>
-        </div>
-      </div>
-
-      <div class="lesson svenska" style="--start: 325; --dur: 80;"
-           data-subject="Svenska" data-room="B204" data-teacher="LAK" data-time="13:25 – 14:45" data-day="Onsdag">
-        <div class="top-row">
-          <span class="teacher">LAK</span>
-          <span class="room-badge">B204</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Svenska</span>
-        </div>
-        <div class="bottom-row">
-          <span>13:25 – 14:45</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- TORSDAG (day-index 4) -->
-    <div class="day-column" data-day-index="4">
-      <div class="lesson matte" style="--start: 5; --dur: 80;"
-           data-subject="Matematik" data-room="C304" data-teacher="NON" data-time="8:05 – 9:25" data-day="Torsdag">
-        <div class="top-row">
-          <span class="teacher">NON</span>
-          <span class="room-badge">C304</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Matematik</span>
-        </div>
-        <div class="bottom-row">
-          <span>8:05 – 9:25</span>
-        </div>
-      </div>
-
-      <div class="lesson idrott" style="--start: 100; --dur: 60;"
-           data-subject="Idrott" data-room="G2" data-teacher="SMA" data-time="9:40 – 10:40" data-day="Torsdag">
-        <div class="top-row">
-          <span class="teacher">SMA</span>
-          <span class="room-badge">G2</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Idrott</span>
-        </div>
-        <div class="bottom-row">
-          <span>9:40 – 10:40</span>
-        </div>
-      </div>
-
-      <div class="lesson neutral" style="--start: 185; --dur: 40;"
-           data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:05 – 11:45" data-day="Torsdag">
-        <div class="middle-row">
-          <span class="lesson-title">Lunch</span>
-        </div>
-      </div>
-
-      <div class="lesson spanska" style="--start: 245; --dur: 55;"
-           data-subject="Spanska" data-room="B109" data-teacher="FEM" data-time="12:05 – 13:00" data-day="Torsdag">
-        <div class="top-row">
-          <span class="teacher">FEM</span>
-          <span class="room-badge">B109</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Spanska</span>
-        </div>
-        <div class="bottom-row">
-          <span>12:05 – 13:00</span>
-        </div>
-      </div>
-
-      <div class="lesson kemi" style="--start: 310; --dur: 60;"
-           data-subject="Kemi" data-room="A411" data-teacher="NON" data-time="13:10 – 14:10" data-day="Torsdag">
-        <div class="top-row">
-          <span class="teacher">NON</span>
-          <span class="room-badge">A411</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Kemi</span>
-        </div>
-        <div class="bottom-row">
-          <span>13:10 – 14:10</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- FREDAG (day-index 5) -->
-    <div class="day-column" data-day-index="5">
-      <div class="lesson idrott" style="--start: 95; --dur: 60;"
-           data-subject="Idrott" data-room="G2" data-teacher="SMA" data-time="9:35 – 10:35" data-day="Fredag">
-        <div class="top-row">
-          <span class="teacher">SMA</span>
-          <span class="room-badge">G2</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Idrott</span>
-        </div>
-        <div class="bottom-row">
-          <span>9:35 – 10:35</span>
-        </div>
-      </div>
-
-      <div class="lesson neutral" style="--start: 180; --dur: 40;"
-           data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:00 – 11:40" data-day="Fredag">
-        <div class="middle-row">
-          <span class="lesson-title">Lunch</span>
-        </div>
-      </div>
-
-      <div class="lesson engelska" style="--start: 220; --dur: 80;"
-           data-subject="Engelska" data-room="B105" data-teacher="LAK" data-time="11:40 – 13:00" data-day="Fredag">
-        <div class="top-row">
-          <span class="teacher">LAK</span>
-          <span class="room-badge">B105</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Engelska</span>
-        </div>
-        <div class="bottom-row">
-          <span>11:40 – 13:00</span>
-        </div>
-      </div>
-
-      <div class="lesson biologi" style="--start: 315; --dur: 60;"
-           data-subject="Biologi" data-room="A506" data-teacher="AMA" data-time="13:15 – 14:15" data-day="Fredag">
-        <div class="top-row">
-          <span class="teacher">AMA</span>
-          <span class="room-badge">A506</span>
-        </div>
-        <div class="middle-row">
-          <span class="lesson-title">Biologi</span>
-        </div>
-        <div class="bottom-row">
-          <span>13:15 – 14:15</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- POP-UP MODAL -->
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal-card" id="modalCard">
-      <button class="modal-close" id="modalClose">&times;</button>
-      <div class="modal-day" id="modalDay">Måndag</div>
-      <div class="modal-title" id="modalTitle">Matematik</div>
-      
-      <div class="modal-info-list">
-        <div class="modal-row">
-          <span class="modal-label">Tid</span>
-          <span class="modal-value" id="modalTime">8:30 – 9:50</span>
-        </div>
-        <div class="modal-row" id="modalRoomRow">
-          <span class="modal-label">Sal</span>
-          <span class="modal-value" id="modalRoom">A414</span>
-        </div>
-        <div class="modal-row" id="modalTeacherRow">
-          <span class="modal-label">Lärare</span>
-          <span class="modal-value" id="modalTeacher">Annika Norin</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalCard = document.getElementById('modalCard');
-    const modalClose = document.getElementById('modalClose');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalDay = document.getElementById('modalDay');
-    const modalTime = document.getElementById('modalTime');
-    const modalRoom = document.getElementById('modalRoom');
-    const modalRoomRow = document.getElementById('modalRoomRow');
-    const modalTeacher = document.getElementById('modalTeacher');
-    const modalTeacherRow = document.getElementById('modalTeacherRow');
-
-    // Mappning för fullständiga lärarnamn
-    const teacherNames = {
-      'NON': 'Annika Norin',
-      'LAK': 'Karl Larsen',
-      'AMA': 'Maria Almlöv',
-      'FEM': 'Samanta Fernandez B',
-      'SMA': 'Anders Smeds'
-    };
-
-    function getFullTeacherNames(rawTeacher) {
-      if (!rawTeacher || rawTeacher === '–') return '';
-      return rawTeacher
-        .split(',')
-        .map(code => code.trim())
-        .map(code => teacherNames[code] || code)
-        .join(', ');
-    }
-
-    // Klick-funktion på lektioner
-    document.querySelectorAll('.lesson').forEach(lesson => {
-      lesson.addEventListener('click', () => {
-        const subject = lesson.dataset.subject;
-        const room = lesson.dataset.room;
-        const teacherRaw = lesson.dataset.teacher;
-        const time = lesson.dataset.time;
-        const day = lesson.dataset.day;
-
-        modalTitle.textContent = subject;
-        modalDay.textContent = day;
-        modalTime.textContent = time;
-
-        if (room && room !== '–') {
-          modalRoom.textContent = room;
-          modalRoomRow.style.display = 'flex';
-        } else {
-          modalRoomRow.style.display = 'none';
-        }
-
-        const fullTeacher = getFullTeacherNames(teacherRaw);
-        if (fullTeacher) {
-          modalTeacher.textContent = fullTeacher;
-          modalTeacherRow.style.display = 'flex';
-        } else {
-          modalTeacherRow.style.display = 'none';
-        }
-
-        const computedStyle = window.getComputedStyle(lesson);
-        modalCard.style.borderColor = computedStyle.borderColor;
-        modalTitle.style.color = computedStyle.color;
-
-        modalBackdrop.classList.add('open');
-      });
-    });
-
-    function closeModal() {
-      modalBackdrop.classList.remove('open');
-    }
-
-    modalClose.addEventListener('click', closeModal);
-    modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) closeModal();
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
-
-    /* ================= AKTUELL LEKTION HIGHLIGHT ================= */
-    function checkCurrentLesson() {
-      const now = new Date();
-      const currentDay = now.getDay(); // 1 = Måndag, 5 = Fredag
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-      // Ta bort tidigare markeringar
-      document.querySelectorAll('.lesson.is-current').forEach(el => {
-        el.classList.remove('is-current');
-      });
-
-      // Kontrollera bara vardagar (Måndag–Fredag)
-      if (currentDay >= 1 && currentDay <= 5) {
-        const todayColumn = document.querySelector(`.day-column[data-day-index="${currentDay}"]`);
-        if (todayColumn) {
-          todayColumn.querySelectorAll('.lesson').forEach(lesson => {
-            const start = parseInt(lesson.style.getPropertyValue('--start'), 10);
-            const dur = parseInt(lesson.style.getPropertyValue('--dur'), 10);
-
-            const startMinutes = 8 * 60 + start; // Starttid i minuter från midnatt
-            const endMinutes = startMinutes + dur; // Sluttid i minuter från midnatt
-
-            // Om aktuell tid är mitt under denna lektion
-            if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
-              lesson.classList.add('is-current');
-            }
-          });
-        }
-      }
-    }
-
-    // Kör direkt vid laddning och därefter var 30:e sekund
-    checkCurrentLesson();
-    setInterval(checkCurrentLesson, 30000);
-  </script>
-
-</body>
-</html>
+        <div class="
