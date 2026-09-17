@@ -60,7 +60,24 @@
       z-index: 20;
     }
 
-    /* Högst upp: Lärare och Sal i schemavyn */
+    /* ================= PÅGÅENDE LEKTION (HIGHLIGHT) ================= */
+    .lesson.is-current {
+      filter: brightness(1.3) !important;
+      border-color: #ffffff !important;
+      z-index: 15;
+      animation: livePulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes livePulse {
+      0%, 100% {
+        box-shadow: 0 0 12px currentColor, inset 0 0 10px rgba(255, 255, 255, 0.06);
+      }
+      50% {
+        box-shadow: 0 0 24px currentColor, 0 0 35px currentColor, inset 0 0 16px rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    /* Högst upp: Lärare och Sal */
     .top-row {
       position: absolute;
       top: 5px;
@@ -272,8 +289,8 @@
 
   <div class="schedule-grid">
 
-    <!-- MÅNDAG -->
-    <div class="day-column">
+    <!-- MÅNDAG (day-index 1) -->
+    <div class="day-column" data-day-index="1">
       <div class="lesson kemi" style="--start: 30; --dur: 80;"
            data-subject="Kemi (b)" data-room="A414" data-teacher="NON" data-time="8:30 – 9:50" data-day="Måndag">
         <div class="top-row">
@@ -302,7 +319,6 @@
         </div>
       </div>
 
-      <!-- LUNCH (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 225; --dur: 40;"
            data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:45 – 12:25" data-day="Måndag">
         <div class="middle-row">
@@ -324,7 +340,6 @@
         </div>
       </div>
 
-      <!-- MENTORSTID (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 345; --dur: 30;"
            data-subject="Mentorstid" data-room="C404" data-teacher="AMA, NON" data-time="13:45 – 14:15" data-day="Måndag">
         <div class="middle-row">
@@ -347,8 +362,8 @@
       </div>
     </div>
 
-    <!-- TISDAG -->
-    <div class="day-column">
+    <!-- TISDAG (day-index 2) -->
+    <div class="day-column" data-day-index="2">
       <div class="lesson kemi" style="--start: 10; --dur: 60;"
            data-subject="Kemi" data-room="A412" data-teacher="NON" data-time="8:10 – 9:10" data-day="Tisdag">
         <div class="top-row">
@@ -391,7 +406,6 @@
         </div>
       </div>
 
-      <!-- LUNCH (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 240; --dur: 40;"
            data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="12:00 – 12:40" data-day="Tisdag">
         <div class="middle-row">
@@ -414,8 +428,8 @@
       </div>
     </div>
 
-    <!-- ONSDAG -->
-    <div class="day-column">
+    <!-- ONSDAG (day-index 3) -->
+    <div class="day-column" data-day-index="3">
       <div class="lesson matte" style="--start: 10; --dur: 80;"
            data-subject="Matematik" data-room="C405" data-teacher="NON" data-time="8:10 – 9:30" data-day="Onsdag">
         <div class="top-row">
@@ -430,7 +444,6 @@
         </div>
       </div>
 
-      <!-- RAST (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 90; --dur: 30;"
            data-subject="Rast" data-room="–" data-teacher="–" data-time="9:30 – 10:00" data-day="Onsdag">
         <div class="middle-row">
@@ -452,7 +465,6 @@
         </div>
       </div>
 
-      <!-- LUNCH (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 190; --dur: 40;"
            data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:10 – 11:50" data-day="Onsdag">
         <div class="middle-row">
@@ -489,8 +501,8 @@
       </div>
     </div>
 
-    <!-- TORSDAG -->
-    <div class="day-column">
+    <!-- TORSDAG (day-index 4) -->
+    <div class="day-column" data-day-index="4">
       <div class="lesson matte" style="--start: 5; --dur: 80;"
            data-subject="Matematik" data-room="C304" data-teacher="NON" data-time="8:05 – 9:25" data-day="Torsdag">
         <div class="top-row">
@@ -519,7 +531,6 @@
         </div>
       </div>
 
-      <!-- LUNCH (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 185; --dur: 40;"
            data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:05 – 11:45" data-day="Torsdag">
         <div class="middle-row">
@@ -556,8 +567,8 @@
       </div>
     </div>
 
-    <!-- FREDAG -->
-    <div class="day-column">
+    <!-- FREDAG (day-index 5) -->
+    <div class="day-column" data-day-index="5">
       <div class="lesson idrott" style="--start: 95; --dur: 60;"
            data-subject="Idrott" data-room="G2" data-teacher="SMA" data-time="9:35 – 10:35" data-day="Fredag">
         <div class="top-row">
@@ -572,7 +583,6 @@
         </div>
       </div>
 
-      <!-- LUNCH (ENDAST TITEL) -->
       <div class="lesson neutral" style="--start: 180; --dur: 40;"
            data-subject="Lunch" data-room="Matsal" data-teacher="–" data-time="11:00 – 11:40" data-day="Fredag">
         <div class="middle-row">
@@ -647,7 +657,7 @@
     const modalTeacher = document.getElementById('modalTeacher');
     const modalTeacherRow = document.getElementById('modalTeacherRow');
 
-    // Mappning för lärares fullständiga namn i pop-upen
+    // Mappning för fullständiga lärarnamn
     const teacherNames = {
       'NON': 'Annika Norin',
       'LAK': 'Karl Larsen',
@@ -656,7 +666,6 @@
       'SMA': 'Anders Smeds'
     };
 
-    // Översätter förkortningar till fullständiga namn
     function getFullTeacherNames(rawTeacher) {
       if (!rawTeacher || rawTeacher === '–') return '';
       return rawTeacher
@@ -666,6 +675,7 @@
         .join(', ');
     }
 
+    // Klick-funktion på lektioner
     document.querySelectorAll('.lesson').forEach(lesson => {
       lesson.addEventListener('click', () => {
         const subject = lesson.dataset.subject;
@@ -678,7 +688,6 @@
         modalDay.textContent = day;
         modalTime.textContent = time;
 
-        // Hantera sal (dölj vid t.ex. Rast)
         if (room && room !== '–') {
           modalRoom.textContent = room;
           modalRoomRow.style.display = 'flex';
@@ -686,7 +695,6 @@
           modalRoomRow.style.display = 'none';
         }
 
-        // Hantera lärare (översätt till fullt namn)
         const fullTeacher = getFullTeacherNames(teacherRaw);
         if (fullTeacher) {
           modalTeacher.textContent = fullTeacher;
@@ -695,7 +703,6 @@
           modalTeacherRow.style.display = 'none';
         }
 
-        // Färgmatchning på modal
         const computedStyle = window.getComputedStyle(lesson);
         modalCard.style.borderColor = computedStyle.borderColor;
         modalTitle.style.color = computedStyle.color;
@@ -716,6 +723,41 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
+
+    /* ================= AKTUELL LEKTION HIGHLIGHT ================= */
+    function checkCurrentLesson() {
+      const now = new Date();
+      const currentDay = now.getDay(); // 1 = Måndag, 5 = Fredag
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      // Ta bort tidigare markeringar
+      document.querySelectorAll('.lesson.is-current').forEach(el => {
+        el.classList.remove('is-current');
+      });
+
+      // Kontrollera bara vardagar (Måndag–Fredag)
+      if (currentDay >= 1 && currentDay <= 5) {
+        const todayColumn = document.querySelector(`.day-column[data-day-index="${currentDay}"]`);
+        if (todayColumn) {
+          todayColumn.querySelectorAll('.lesson').forEach(lesson => {
+            const start = parseInt(lesson.style.getPropertyValue('--start'), 10);
+            const dur = parseInt(lesson.style.getPropertyValue('--dur'), 10);
+
+            const startMinutes = 8 * 60 + start; // Starttid i minuter från midnatt
+            const endMinutes = startMinutes + dur; // Sluttid i minuter från midnatt
+
+            // Om aktuell tid är mitt under denna lektion
+            if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
+              lesson.classList.add('is-current');
+            }
+          });
+        }
+      }
+    }
+
+    // Kör direkt vid laddning och därefter var 30:e sekund
+    checkCurrentLesson();
+    setInterval(checkCurrentLesson, 30000);
   </script>
 
 </body>
